@@ -1,9 +1,12 @@
 package game;
 
+import java.awt.Graphics;
+
 public abstract class Entity {
 
-	private int health, maxHealth, attack, defence;
-	private String name;
+	protected int health, maxHealth, attack, defence;
+	protected float xLocation, yLocation;
+	protected String name;
 
 	public Entity(int maxHealth, int attack, int defence) {
 		this.maxHealth = this.health = maxHealth;
@@ -11,6 +14,21 @@ public abstract class Entity {
 		this.defence = defence;
 	}
 	
+	public float getX(){
+		return xLocation;
+	}
+	
+	public float getY(){
+		return yLocation;
+	}
+	
+	public void update(){
+		
+	}
+	
+	public void draw(Graphics g){
+		
+	}
 	
 
 }
