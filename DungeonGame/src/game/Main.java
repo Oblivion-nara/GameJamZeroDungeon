@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.image.VolatileImage;
 
@@ -11,6 +12,7 @@ public class Main extends JFrame{
 	private boolean running;
 	private Dungeon dungeon;
 	private VolatileImage offimage;
+	private Graphics g;
 
 	public static int width, height;
 	
@@ -39,6 +41,8 @@ public class Main extends JFrame{
 		width = dim.width;
 		height = dim.height;
 		
+		g = this.getGraphics();
+		
 		this.setTitle("Dungeon Game");
 		this.setSize(dim);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,7 +58,12 @@ public class Main extends JFrame{
 	}
 
 	private void draw() {
-		dungeon.draw(g);
+		
+		Graphics offGraphics = offimage.createGraphics();
+		
+		dungeon.draw(offGraphics);
+		
+		g.drawImage(offimage, 0, 0, width,height,null);
 	}
 
 	public static void main(String[] args) {
