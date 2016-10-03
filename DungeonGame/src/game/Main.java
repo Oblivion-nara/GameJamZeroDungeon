@@ -42,14 +42,14 @@ public class Main extends JFrame {
 
 	private void init() {
 		running = true;
-		dungeon = new Dungeon();
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		width = dim.width;
+		height = dim.height;
+		dungeon = new Dungeon(this.createImage(width, height));
 		this.add(dungeon);
 		
 		input = new InputHandler(this);
 
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		width = dim.width;
-		height = dim.height;
 
 		offimage = this.createImage(width, height);
 		g = this.getGraphics();
