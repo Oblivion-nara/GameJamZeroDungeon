@@ -11,7 +11,7 @@ import utils.Block;
 import utils.InputHandler;
 import utils.NoiseGenerator;
 
-public class Dungeon extends JPanel{
+public class Dungeon{
 	
 	private static final long serialVersionUID = 1L;
 	private boolean[][] dungeon;
@@ -29,22 +29,20 @@ public class Dungeon extends JPanel{
 	
 	public void update(float time){
 		if(Main.input.isKeyDown(KeyEvent.VK_W)){
-			yDif += (player.getSpeed() * time) / Math.sqrt(2);
+			yDif += (player.getSpeed() * time) ;
 		}
 		if(Main.input.isKeyDown(KeyEvent.VK_A)){
-			xDif += (player.getSpeed() * time) / Math.sqrt(2);
+			xDif += (player.getSpeed() * time) ;
 		}
 		if(Main.input.isKeyDown(KeyEvent.VK_S)){
-			yDif -= (player.getSpeed() * time) / Math.sqrt(2);
+			yDif -= (player.getSpeed() * time) ;
 		}
 		if(Main.input.isKeyDown(KeyEvent.VK_D)){
-			xDif -= (player.getSpeed() * time) / Math.sqrt(2);
+			xDif -= (player.getSpeed() * time) ;
 		}
-		System.out.println("moving by " + xDif + ", " + yDif);
 	}
 	
-	@Override
-	public void paintComponent(Graphics g){
+	public void draw(Graphics g){
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.black);
 		g2d.fillRect(0, 0, 2048, 2048);

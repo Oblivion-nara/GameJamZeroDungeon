@@ -1,10 +1,12 @@
 package game;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -14,7 +16,7 @@ public class Main extends JFrame {
 
 	private boolean running;
 	private Dungeon dungeon;
-	private Image offimage;
+	private BufferedImage offimage;
 	private Graphics g;
 
 	public static int width, height;
@@ -25,7 +27,6 @@ public class Main extends JFrame {
 		init();
 
 		long beforeTime, afterTime, deltaTime = 0;
-		;
 
 		while (running) {
 			beforeTime = System.nanoTime();
@@ -35,7 +36,7 @@ public class Main extends JFrame {
 			}
 			afterTime = System.nanoTime();
 			deltaTime = afterTime - beforeTime;
-			System.out.println("Main.run() "+deltaTime);
+
 		}
 		this.dispose();
 	}
@@ -43,16 +44,12 @@ public class Main extends JFrame {
 	private void init() {
 		running = true;
 		dungeon = new Dungeon();
-		this.add(dungeon);
-		
+
 		input = new InputHandler(this);
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		width = dim.width;
 		height = dim.height;
-
-		offimage = this.createImage(width, height);
-		g = this.getGraphics();
 
 		this.setTitle("Dungeon Game");
 		this.setSize(dim);
@@ -61,24 +58,29 @@ public class Main extends JFrame {
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setVisible(true);
 
+		offimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		g = this.getGraphics();
+
 	}
 
 	private void update(long nanoTime) {
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			running = false;
 		} else {
-			Float timeS = (float)nanoTime/1000000000;
+			Float timeS = (float) nanoTime / 1000000000;
 			dungeon.update(timeS);
 		}
 	}
 
 	private void draw() {
 
-		// offimage = this.createVolatileImage(width, height);
+		Graphics offgraphics = offimage.getGraphics();
 
-		dungeon.repaint();
+		offgraphics.setColor(Color.BLACK);
+		offgraphics.fillRect(0, 0, width, height);
+		dungeon.draw(offgraphics);
 
-		// g.drawImage(offimage, 0, 0, width,height,null);
+		g.drawImage(offimage, 0, 0, width, height, null);
 	}
 
 	public static void main(String[] args) {
