@@ -20,5 +20,9 @@ public class Player extends Entity {
 		
 	}
 	
+	public int getSpeed(){
+		return speed;
+	}
+	
 	
 }

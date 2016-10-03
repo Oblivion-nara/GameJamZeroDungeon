@@ -19,26 +19,28 @@ public class Dungeon extends JPanel{
 	private Block floor = new Block("stone.png", 0, false, 16, 16);
 	private NoiseGenerator noise;
 	private InputHandler input;
+	private Player player;
 	private float xDif, yDif;
 	
 	public Dungeon(){
 		input = new InputHandler(this);
 		noise = new NoiseGenerator(0);
+		player = new Player(100, 1, 1);
 		dungeon = noise.getCellularAutomataNoise(256, 256, 4, 3, 5);
 	}
 	
 	public void update(long time){
 		if(input.isKeyDown(KeyEvent.VK_W)){
-			yDif += player.speed * time / Math.sqrt(2);
+			yDif += player.getSpeed() * time / Math.sqrt(2);
 		}
 		if(input.isKeyDown(KeyEvent.VK_A)){
-			xDif += player.speed * time / Math.sqrt(2);
+			xDif += player.getSpeed() * time / Math.sqrt(2);
 		}
 		if(input.isKeyDown(KeyEvent.VK_S)){
-			yDif -= player.speed * time / Math.sqrt(2);
+			yDif -= player.getSpeed() * time / Math.sqrt(2);
 		}
 		if(input.isKeyDown(KeyEvent.VK_D)){
-			xDif -= player.speed * time / Math.sqrt(2);
+			xDif -= player.getSpeed() * time / Math.sqrt(2);
 		}
 	}
 	
