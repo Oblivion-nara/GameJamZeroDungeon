@@ -15,8 +15,8 @@ public class Dungeon extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	private boolean[][] dungeon;
-	private Block wall = new Block("rock.png", 0, true, 16, 16);
-	private Block floor = new Block("stone.png", 0, false, 16, 16);
+	private Block wall = new Block("stone/rock.png", 0, true, 16, 16);
+	private Block floor = new Block("stone/stone.png", 0, false, 16, 16);
 	private NoiseGenerator noise;
 	private InputHandler input;
 	private Player player;
