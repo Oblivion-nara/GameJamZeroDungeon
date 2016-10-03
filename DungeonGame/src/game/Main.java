@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
@@ -36,6 +37,7 @@ public class Main extends JFrame{
 	private void init() {
 		running = true;
 		dungeon = new Dungeon();
+		this.add(dungeon);
 		
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		width = dim.width;
@@ -50,18 +52,17 @@ public class Main extends JFrame{
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		this.setVisible(true);
 		
-		
 	}
 
 	private void update(long nanoTime) {
-		dungeon.update(nanoTime);
+//		dungeon.update(nanoTime);
 	}
 
 	private void draw() {
+
+		offimage = this.createVolatileImage(width, height);
 		
-		Graphics offGraphics = offimage.createGraphics();
-		
-		dungeon.draw(offGraphics);
+//		dungeon.draw(offGraphics);
 		
 		g.drawImage(offimage, 0, 0, width,height,null);
 	}
