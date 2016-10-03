@@ -4,10 +4,13 @@ import java.awt.Graphics;
 
 public class Player extends Entity {
 
-	private int speed = 50;
 	
-	public Player(int maxHealth, int attack, int defence) {
-		super(maxHealth, attack, defence);
+	public Player(int xLocation, int yLocation, int maxHealth, int attack, int defence, float speed) {
+		super(xLocation, yLocation, maxHealth, attack, defence, speed);
+	}
+	
+	public float getSpeed(){
+		return speed;
 	}
 
 	public void update(){
@@ -18,10 +21,6 @@ public class Player extends Entity {
 	public void draw(Graphics g){
 		super.draw(g);
 		
-	}
-	
-	public int getSpeed(){
-		return speed;
 	}
 	
 	
