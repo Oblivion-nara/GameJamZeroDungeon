@@ -44,7 +44,8 @@ public class Dungeon extends JPanel{
 		}
 	}
 	
-	public void draw(Graphics g){
+	@Override
+	public void paintComponent(Graphics g){
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.black);
 		g2d.fillRect(0, 0, 2048, 2048);
