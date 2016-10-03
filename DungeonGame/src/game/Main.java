@@ -35,6 +35,7 @@ public class Main extends JFrame {
 			}
 			afterTime = System.nanoTime();
 			deltaTime = afterTime - beforeTime;
+			System.out.println("Main.run() "+deltaTime);
 		}
 		this.dispose();
 	}
@@ -66,7 +67,8 @@ public class Main extends JFrame {
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
 			running = false;
 		} else {
-			dungeon.update(nanoTime);
+			Float timeS = (float)nanoTime/1000000000;
+			dungeon.update(timeS);
 		}
 	}
 
