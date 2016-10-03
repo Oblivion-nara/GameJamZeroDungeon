@@ -77,7 +77,7 @@ public class Main extends JFrame {
 		Graphics offgraphics = offimage.getGraphics();
 
 		offgraphics.setColor(Color.BLACK);
-		offgraphics.fillRect(0, 0, width, height);
+		//offgraphics.fillRect(0, 0, width, height);
 		dungeon.draw(offgraphics);
 
 		g.drawImage(offimage, 0, 0, width, height, null);
