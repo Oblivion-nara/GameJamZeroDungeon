@@ -26,7 +26,7 @@ public class Dungeon extends JPanel{
 		input = new InputHandler(this);
 		noise = new NoiseGenerator(0);
 		player = new Player(100, 1, 1);
-		dungeon = noise.getCellularAutomataNoise(256, 256, 4, 3, 5);
+		dungeon = noise.getCellularAutomataNoise(256, 256, 4, 4, 4);
 	}
 	
 	public void update(long time){
