@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 public class Player extends Entity {
 
-	private int speed;
+	private int speed = 2;
 	
 	public Player(int maxHealth, int attack, int defence) {
 		super(maxHealth, attack, defence);
