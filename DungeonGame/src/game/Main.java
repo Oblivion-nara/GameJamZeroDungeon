@@ -8,11 +8,16 @@ public class Main {
 		
 		init();
 		
+		long beforeTime, afterTime, deltaTime = 0;;
+		
 		while (running) {
-			update();
+			beforeTime = System.nanoTime();
+			update(deltaTime);
 			if (running) {
 				draw();
 			}
+			afterTime = System.nanoTime();
+			deltaTime = afterTime - beforeTime;
 		}
 	}
 
@@ -20,7 +25,7 @@ public class Main {
 		running = true;
 	}
 
-	private void update() {
+	private void update(long nanoTime) {
 
 	}
 
