@@ -3,10 +3,10 @@ package game;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
@@ -20,6 +20,7 @@ public class Main extends JFrame {
 	private Graphics g;
 
 	public static int width, height;
+	public static Random random;
 	public static InputHandler input;
 
 	private void run() {
@@ -43,9 +44,11 @@ public class Main extends JFrame {
 
 	private void init() {
 		running = true;
+		random = new Random();
+		
 		dungeon = new Dungeon();
-
 		input = new InputHandler(this);
+
 
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		width = dim.width;

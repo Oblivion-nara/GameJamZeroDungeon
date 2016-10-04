@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 
 import utils.Block;
 import utils.NoiseGenerator;
+import utils.ResourceLoader;
 
 public class Dungeon {
 
@@ -20,11 +21,21 @@ public class Dungeon {
 	private Block floor = new Block("stone/stone.png", 0, false, 16, 16);
 	private NoiseGenerator noise;
 	private Player player;
+	private Enemy[] enemies;
 
 	public Dungeon() {
 		noise = new NoiseGenerator(0);
 		initDungeon();
-		player = new Player(1000, 1000, 100, 1, 1, 50);
+		player = new Player(1000, 1000, 100, 1, 1, 50, ResourceLoader.getBufferedImage("character_sprites_black"));
+		;
+		BufferedImage enemyImage = ResourceLoader.getBufferedImage("ghost_sprites");
+		int spawnWidth = mapPicture.getWidth() - 400;
+		int spawnHeight = mapPicture.getHeight() - 400;
+		enemies = new Enemy[10];
+		for (int i = 0; i < 10; i++) {
+			enemies[i] = new Enemy(Main.random.nextInt(spawnWidth) + 200, Main.random.nextInt(spawnHeight) + 200, 100,
+					2, 1, 15, enemyImage);
+		}
 	}
 
 	private void initDungeon() {
@@ -84,10 +95,18 @@ public class Dungeon {
 
 	public void draw(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
+
 		g2d.setColor(Color.black);
 		g2d.fillRect(0, 0, Main.width, Main.height);
 		g2d.drawImage(mapPicture, (int) xDif, (int) yDif, mapPicture.getWidth(), mapPicture.getHeight(), null);
-		player.draw(g2d);
+
+		g2d.drawImage((Image) player.draw(), Main.width / 2 - player.getSize().x / 2,
+				Main.height / 2 - player.getSize().y / 2, null);
+
+		for (Enemy enemy : enemies) {
+			g2d.drawImage((Image) enemy.draw(), (int) (enemy.xLocation + xDif) - enemy.getSize().x / 2,
+					(int) (enemy.yLocation + yDif) - enemy.getSize().y / 2, null);
+		}
 
 	}
 
