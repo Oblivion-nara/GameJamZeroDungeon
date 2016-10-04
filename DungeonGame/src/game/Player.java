@@ -48,32 +48,41 @@ public class Player extends Entity {
 	public void moveUL(float time) {
 		xLocation -= (speed * time) / Math.sqrt(2);
 		yLocation -= (speed * time) / Math.sqrt(2);
+		currentX = 1;
 	}
 
 	public void moveUR(float time) {
 		xLocation += (speed * time) / Math.sqrt(2);
 		yLocation -= (speed * time) / Math.sqrt(2);
+		currentX = 1;
 	}
 
 	public void moveDL(float time) {
 		xLocation -= (speed * time) / Math.sqrt(2);
 		yLocation += (speed * time) / Math.sqrt(2);
+		currentX = 0;
 	}
 
 	public void moveDR(float time) {
 		xLocation += (speed * time) / Math.sqrt(2);
 		yLocation += (speed * time) / Math.sqrt(2);
+		currentX = 0;
 	}
-	
-	public void attack(){
-		currentY = 3;
-		animationTimer = System.currentTimeMillis() + changeTimer;
+
+	public void attack() {
+		if (System.currentTimeMillis() > attackCooldown) {
+			moving = true;
+			currentY = 3;
+			animationTimer = System.currentTimeMillis() + changeTimer;
+			attackCooldown = System.currentTimeMillis() + changeTimer*2;
+		}
+
 	}
 
 	public void update(float time) {
 		if (moving) {
 			super.update(time);
-		} else {
+		} else if (System.currentTimeMillis() > attackCooldown) {
 			currentY = 0;
 		}
 

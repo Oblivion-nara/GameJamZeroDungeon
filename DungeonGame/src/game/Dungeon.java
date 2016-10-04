@@ -14,7 +14,7 @@ import utils.ResourceLoader;
 
 public class Dungeon {
 
-	private static final long serialVersionUID = 1L;
+	private int entityMultiplier, blockMultiplier;
 	private float xDif, yDif;
 	private boolean[][] dungeon;
 	private BufferedImage mapPicture, mazePicture;
@@ -27,8 +27,10 @@ public class Dungeon {
 
 	public Dungeon() {
 		noise = new NoiseGenerator(0);
+		entityMultiplier = 4;
+		blockMultiplier = 4;
 		initDungeon();
-		player = new Player(1000, 1000, 100, 1, 1, 50,
+		player = new Player(1000, 1000, 100, 1, 1, 100,
 				ResourceLoader.getPlayerSprites("character_sprites_black", 16, 16));
 		;
 		BufferedImage[][] enemyImage = ResourceLoader.getPlayerSprites("ghost_sprites", 16, 16);
@@ -55,9 +57,9 @@ public class Dungeon {
 		for (int i = 0; i < dungeon.length; i++) {
 			for (int j = 0; j < dungeon[0].length; j++) {
 				if (dungeon[i][j]) {
-					floor.draw(g, i * tileSize, j * tileSize);
+					floor.draw(g, i * tileSize*blockMultiplier, j * tileSize*blockMultiplier, blockMultiplier);
 				} else {
-					wall.draw(g, i * tileSize, j * tileSize);
+					wall.draw(g, i * tileSize*blockMultiplier, j * tileSize*blockMultiplier, blockMultiplier);
 				}
 			}
 		}
@@ -100,7 +102,7 @@ public class Dungeon {
 			player.moving();
 			player.moveRight(time);
 		}
-		if(Main.input.isKeyDown(KeyEvent.VK_SPACE)){
+		if (Main.input.isKeyDown(KeyEvent.VK_SPACE)) {
 			player.attack();
 		}
 	}
@@ -126,13 +128,15 @@ public class Dungeon {
 		g2d.fillRect(0, 0, Main.width, Main.height);
 		g2d.drawImage(mapPicture, (int) xDif, (int) yDif, mapPicture.getWidth(), mapPicture.getHeight(), null);
 
-		g2d.drawImage((Image) player.draw(), Main.width / 2 - player.getSize().x, Main.height / 2 - player.getSize().y,
-				player.getSize().x * 2, player.getSize().y * 2, null);
+		g2d.drawImage((Image) player.draw(), Main.width / 2 - (player.getSize().x * entityMultiplier) / 2,
+				Main.height / 2 - (player.getSize().y * entityMultiplier) / 2, player.getSize().x * entityMultiplier,
+				player.getSize().y * entityMultiplier, null);
 
 		for (Enemy enemy : enemies) {
-			g2d.drawImage((Image) enemy.draw(), (int) (enemy.xLocation + xDif) - enemy.getSize().x,
-					(int) (enemy.yLocation + yDif) - enemy.getSize().y, enemy.getSize().x * 2, enemy.getSize().y * 2,
-					null);
+			g2d.drawImage((Image) enemy.draw(),
+					(int) (enemy.xLocation + xDif) - (enemy.getSize().x * entityMultiplier) / 2,
+					(int) (enemy.yLocation + yDif) - (enemy.getSize().y * entityMultiplier) / 2,
+					enemy.getSize().x * entityMultiplier, enemy.getSize().y * entityMultiplier, null);
 		}
 
 	}

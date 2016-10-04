@@ -7,7 +7,7 @@ public abstract class Entity {
 
 	protected int health, maxHealth, attack, defence, currentX, currentY;
 	protected float xLocation, yLocation, speed;
-	protected long animationTimer, changeTimer;
+	protected long animationTimer, changeTimer, attackCooldown;
 	protected String name;
 	protected Point size;
 	protected BufferedImage[][] sprite;
@@ -23,6 +23,7 @@ public abstract class Entity {
 		currentX = currentY = 0;
 		this.size = new Point(sprite[0][0].getWidth(),sprite[0][0].getHeight());
 		changeTimer = 500;
+		attackCooldown = System.currentTimeMillis() + changeTimer;
 		animationTimer = System.currentTimeMillis() + changeTimer;
 	}
 	
