@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Toolkit;
@@ -50,6 +51,7 @@ public class Main extends JFrame {
 		input = new InputHandler(this);
 
 
+		getContentPane().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		width = dim.width;
 		height = dim.height;

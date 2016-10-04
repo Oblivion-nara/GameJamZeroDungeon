@@ -1,7 +1,6 @@
 package game;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 public class Player extends Entity {
@@ -13,6 +12,10 @@ public class Player extends Entity {
 
 	public float getSpeed() {
 		return speed;
+	}
+
+	public Point2D.Double getLocation() {
+		return new Point2D.Double(xLocation, yLocation);
 	}
 
 	public void update(float time) {

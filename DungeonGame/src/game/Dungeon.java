@@ -36,7 +36,7 @@ public class Dungeon {
 		enemies = new Enemy[10];
 		for (int i = 0; i < 10; i++) {
 			enemies[i] = new Enemy(Main.random.nextInt(spawnWidth) + 200, Main.random.nextInt(spawnHeight) + 200, 100,
-					2, 1, 15, enemyImage);
+					2, 1,5+(float)Main.random.nextGaussian()*3, enemyImage);
 		}
 		initMaze();
 	}
@@ -103,6 +103,10 @@ public class Dungeon {
 	}
 
 	public void update(float time) {
+		player.update(time);
+		for (Enemy enemy : enemies) {
+			enemy.update(time,player.getLocation());
+		}
 		movePlayer(time);
 		updateCamera();
 	}
