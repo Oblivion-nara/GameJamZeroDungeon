@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import utils.Block;
+import utils.MazeGenerator;
 import utils.NoiseGenerator;
 import utils.ResourceLoader;
 
@@ -16,10 +17,11 @@ public class Dungeon {
 	private static final long serialVersionUID = 1L;
 	private float xDif, yDif;
 	private boolean[][] dungeon;
-	private BufferedImage mapPicture;
+	private BufferedImage mapPicture, mazePicture;
 	private Block wall = new Block("stone/rock.png", 0, true, 16, 16);
 	private Block floor = new Block("stone/stone.png", 0, false, 16, 16);
 	private NoiseGenerator noise;
+	private MazeGenerator maze;
 	private Player player;
 	private Enemy[] enemies;
 
@@ -36,6 +38,7 @@ public class Dungeon {
 			enemies[i] = new Enemy(Main.random.nextInt(spawnWidth) + 200, Main.random.nextInt(spawnHeight) + 200, 100,
 					2, 1, 15, enemyImage);
 		}
+		initMaze();
 	}
 
 	private void initDungeon() {
@@ -57,6 +60,17 @@ public class Dungeon {
 				}
 			}
 		}
+	}
+	
+	private void initMaze(){
+		int x = 32;
+		int y = 32;
+		int tileSize = 16;
+		maze = new MazeGenerator(x, y, 0);
+		maze.generate(1, 1);
+		mazePicture = new BufferedImage(tileSize * x * tileSize, tileSize * y * tileSize, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = (Graphics2D) mazePicture.getGraphics();
+		maze.draw(g);
 	}
 
 	private void movePlayer(float time) {
