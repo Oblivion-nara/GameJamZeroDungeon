@@ -28,15 +28,16 @@ public class Dungeon {
 	public Dungeon() {
 		noise = new NoiseGenerator(0);
 		initDungeon();
-		player = new Player(1000, 1000, 100, 1, 1, 50, ResourceLoader.getBufferedImage("character_sprites_black"));
+		player = new Player(1000, 1000, 100, 1, 1, 50,
+				ResourceLoader.getPlayerSprites("character_sprites_black", 16, 16));
 		;
-		BufferedImage enemyImage = ResourceLoader.getBufferedImage("ghost_sprites");
+		BufferedImage[][] enemyImage = ResourceLoader.getPlayerSprites("ghost_sprites", 16, 16);
 		int spawnWidth = mapPicture.getWidth() - 400;
 		int spawnHeight = mapPicture.getHeight() - 400;
 		enemies = new Enemy[10];
 		for (int i = 0; i < 10; i++) {
 			enemies[i] = new Enemy(Main.random.nextInt(spawnWidth) + 200, Main.random.nextInt(spawnHeight) + 200, 100,
-					2, 1,5+(float)Main.random.nextGaussian()*3, enemyImage);
+					2, 1, 5 + (float) Main.random.nextGaussian() * 3, enemyImage);
 		}
 		initMaze();
 	}
@@ -61,8 +62,8 @@ public class Dungeon {
 			}
 		}
 	}
-	
-	private void initMaze(){
+
+	private void initMaze() {
 		int x = 32;
 		int y = 32;
 		int tileSize = 16;
@@ -75,6 +76,7 @@ public class Dungeon {
 
 	private void movePlayer(float time) {
 		if (Main.input.isKeyDown(KeyEvent.VK_W)) {
+			player.moving();
 			if (Main.input.isKeyDown(KeyEvent.VK_A)) {
 				player.moveUL(time);
 			} else if (Main.input.isKeyDown(KeyEvent.VK_D)) {
@@ -83,6 +85,7 @@ public class Dungeon {
 				player.moveUp(time);
 			}
 		} else if (Main.input.isKeyDown(KeyEvent.VK_S)) {
+			player.moving();
 			if (Main.input.isKeyDown(KeyEvent.VK_A)) {
 				player.moveDL(time);
 			} else if (Main.input.isKeyDown(KeyEvent.VK_D)) {
@@ -91,9 +94,14 @@ public class Dungeon {
 				player.moveDown(time);
 			}
 		} else if (Main.input.isKeyDown(KeyEvent.VK_A)) {
+			player.moving();
 			player.moveLeft(time);
 		} else if (Main.input.isKeyDown(KeyEvent.VK_D)) {
+			player.moving();
 			player.moveRight(time);
+		}
+		if(Main.input.isKeyDown(KeyEvent.VK_SPACE)){
+			player.attack();
 		}
 	}
 
@@ -103,11 +111,11 @@ public class Dungeon {
 	}
 
 	public void update(float time) {
+		movePlayer(time);
 		player.update(time);
 		for (Enemy enemy : enemies) {
-			enemy.update(time,player.getLocation());
+			enemy.update(time, player.getLocation());
 		}
-		movePlayer(time);
 		updateCamera();
 	}
 
@@ -118,12 +126,13 @@ public class Dungeon {
 		g2d.fillRect(0, 0, Main.width, Main.height);
 		g2d.drawImage(mapPicture, (int) xDif, (int) yDif, mapPicture.getWidth(), mapPicture.getHeight(), null);
 
-		g2d.drawImage((Image) player.draw(), Main.width / 2 - player.getSize().x / 2,
-				Main.height / 2 - player.getSize().y / 2, null);
+		g2d.drawImage((Image) player.draw(), Main.width / 2 - player.getSize().x, Main.height / 2 - player.getSize().y,
+				player.getSize().x * 2, player.getSize().y * 2, null);
 
 		for (Enemy enemy : enemies) {
-			g2d.drawImage((Image) enemy.draw(), (int) (enemy.xLocation + xDif) - enemy.getSize().x / 2,
-					(int) (enemy.yLocation + yDif) - enemy.getSize().y / 2, null);
+			g2d.drawImage((Image) enemy.draw(), (int) (enemy.xLocation + xDif) - enemy.getSize().x,
+					(int) (enemy.yLocation + yDif) - enemy.getSize().y, enemy.getSize().x * 2, enemy.getSize().y * 2,
+					null);
 		}
 
 	}

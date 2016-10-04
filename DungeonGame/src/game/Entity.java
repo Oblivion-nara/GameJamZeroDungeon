@@ -5,13 +5,14 @@ import java.awt.image.BufferedImage;
 
 public abstract class Entity {
 
-	protected int health, maxHealth, attack, defence;
+	protected int health, maxHealth, attack, defence, currentX, currentY;
 	protected float xLocation, yLocation, speed;
+	protected long animationTimer, changeTimer;
 	protected String name;
 	protected Point size;
-	protected BufferedImage sprite;
+	protected BufferedImage[][] sprite;
 
-	public Entity(int xLocation, int yLocation, int maxHealth, int attack, int defence, float speed, BufferedImage sprite) {
+	public Entity(int xLocation, int yLocation, int maxHealth, int attack, int defence, float speed, BufferedImage[][] sprite) {
 		this.xLocation = xLocation;
 		this.yLocation = yLocation;
 		this.maxHealth = this.health = maxHealth;
@@ -19,7 +20,10 @@ public abstract class Entity {
 		this.defence = defence;
 		this.speed = speed;
 		this.sprite = sprite;
-		this.size = new Point(sprite.getWidth(),sprite.getHeight());
+		currentX = currentY = 0;
+		this.size = new Point(sprite[0][0].getWidth(),sprite[0][0].getHeight());
+		changeTimer = 500;
+		animationTimer = System.currentTimeMillis() + changeTimer;
 	}
 	
 	public float getX(){
@@ -33,48 +37,19 @@ public abstract class Entity {
 		return size;
 	}
 	
-	public void moveUp(float time){
-		yLocation -= speed * time;
-	}
-	
-	public void moveLeft(float time){
-		xLocation -= speed * time;
-	}
-	
-	public void moveDown(float time){
-		yLocation += speed * time;
-	}
-	
-	public void moveRight(float time){
-		xLocation += speed * time;
-	}
-	
-	public void moveUL(float time){
-		xLocation -= (speed * time) / Math.sqrt(2);
-		yLocation -= (speed * time) / Math.sqrt(2);
-	}
-	
-	public void moveUR(float time){
-		xLocation += (speed * time) / Math.sqrt(2);
-		yLocation -= (speed * time) / Math.sqrt(2);
-	}
-	
-	public void moveDL(float time){
-		xLocation -= (speed * time) / Math.sqrt(2);
-		yLocation += (speed * time) / Math.sqrt(2);
-	}
-	
-	public void moveDR(float time){
-		xLocation += (speed * time) / Math.sqrt(2);
-		yLocation += (speed * time) / Math.sqrt(2);
-	}
-	
 	public void update(float time){
-		
+
+		if (System.currentTimeMillis() > animationTimer) {
+			animationTimer += changeTimer;
+			currentY++;
+			if (currentY > 2) {
+				currentY = 0;
+			}
+		}
 	}
 	
 	public BufferedImage draw(){
-		return sprite;
+		return sprite[currentX][currentY];
 		
 	}
 	

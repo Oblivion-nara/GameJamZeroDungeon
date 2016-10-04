@@ -7,18 +7,19 @@ import utils.MathHelper;
 
 public class Enemy extends Entity{
 	
-	public Enemy(int xLocation, int yLocation, int maxHealth, int attack, int defence, float speed, BufferedImage sprite){
+	public Enemy(int xLocation, int yLocation, int maxHealth, int attack, int defence, float speed, BufferedImage[][] sprite){
 		super(xLocation, yLocation, maxHealth, attack, defence, speed, sprite);
 	}
 	
 	public void update(float time,Point2D.Double playerLocation){
+		super.update(time);
 		Point2D.Double move = MathHelper.getPoint2D(new Point2D.Double(xLocation,yLocation), playerLocation, speed, 0.5);
-		xLocation += move.x;
-		yLocation += move.y;
+//		xLocation += move.x;
+//		yLocation += move.y;
 	}
 	
 	public BufferedImage draw(){
-		return sprite;
+		return sprite[currentX][currentY];
 	}
 	
 }
