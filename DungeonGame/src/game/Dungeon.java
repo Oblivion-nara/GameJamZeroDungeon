@@ -117,6 +117,7 @@ public class Dungeon {
 		player.update(time);
 		for (Enemy enemy : enemies) {
 			enemy.update(time, player.getLocation());
+			
 		}
 		updateCamera();
 	}
