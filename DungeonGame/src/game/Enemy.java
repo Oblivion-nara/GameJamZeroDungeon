@@ -3,8 +3,8 @@ package game;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import handlers.Sound;
 import utils.MathHelper;
-import utils.Sound;
 
 public class Enemy extends Entity {
 

@@ -4,14 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
+import generators.MazeGenerator;
+import generators.NoiseGenerator;
+import handlers.ResourceLoader;
 import utils.Block;
-import utils.MazeGenerator;
-import utils.NoiseGenerator;
-import utils.ResourceLoader;
 
 public class Dungeon {
 
@@ -126,6 +128,19 @@ public class Dungeon {
 		}
 		if (Main.input.isKeyDown(KeyEvent.VK_SPACE)) {
 			player.attack();
+			Point att = player.attackVector;
+			Line2D attackLine = new Line2D.Double(player.xLocation,player.yLocation,att.x,att.y);
+
+			for (int i = 0; i < imps.length; i++) {
+				if(attackLine.intersects(impCollisionBoxes[i])){
+					imps[i].kill();
+				}
+			}
+			for (int i = 0; i < ghosts.length; i++) {
+				if(attackLine.intersects(ghostCollisionBoxes[i])){
+					ghosts[i].kill();
+				}
+			}
 		}
 	}
 
@@ -179,7 +194,6 @@ public class Dungeon {
 	}
 
 	public void update(float time) {
-		movePlayer(time);
 		player.update(time);
 		int aliveCount = 0;
 		for (int i = 0; i < imps.length; i++) {
@@ -196,7 +210,8 @@ public class Dungeon {
 			}
 			ghostCollisionBoxes[i].setLocation((int)(ghosts[i].xLocation-ghosts[i].size.x/2), (int)(ghosts[i].yLocation-ghosts[i].size.y/2));
 		}
-		isMaze = aliveCount == 0;
+		movePlayer(time);
+		isMaze = true;
 		updateCamera();
 	}
 
