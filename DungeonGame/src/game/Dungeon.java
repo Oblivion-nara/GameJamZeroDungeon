@@ -50,14 +50,14 @@ public class Dungeon {
 		
 		for (int i = 0; i < numOfImps; i++) {
 			int xLoc = Main.random.nextInt(spawnWidth) + 200, yLoc = Main.random.nextInt(spawnHeight) + 200;
-			imps[i] = new Enemy(xLoc, yLoc, 100, 2, 1, 2.5f + (float) Main.random.nextGaussian() * 2, impImage);
+			imps[i] = new Enemy(xLoc, yLoc, 100, 2, 1, 180 + (float) Main.random.nextGaussian() * 30, impImage);
 			int width = imps[i].getSize().x * entityMultiplier, height = imps[i].getSize().y * entityMultiplier;
 			impCollisionBoxes[i] = new Rectangle(xLoc - width / 2, yLoc - height / 2, width, height);
 		}
 		
 		for (int i = 0; i < numOfGhosts; i++) {
 			int xLoc = Main.random.nextInt(spawnWidth) + 200, yLoc = Main.random.nextInt(spawnHeight) + 200;
-			ghosts[i] = new Enemy(xLoc, yLoc, 100, 2, 1, 2f + (float) Main.random.nextGaussian(), ghostImage);
+			ghosts[i] = new Enemy(xLoc, yLoc, 100, 2, 1, 200 + (float) Main.random.nextGaussian() * 20, ghostImage);
 			int width = ghosts[i].getSize().x * entityMultiplier, height = ghosts[i].getSize().y * entityMultiplier;
 			ghostCollisionboxes[i] = new Rectangle(xLoc - width / 2, yLoc - height / 2, width, height);
 		}
@@ -190,6 +190,7 @@ public class Dungeon {
 		}
 		for (Enemy enemy : ghosts) {
 			enemy.update(time, player.getLocation());
+			enemy.playSound();
 			if (enemy.isAlive()) {
 				aliveCount++;
 			}
