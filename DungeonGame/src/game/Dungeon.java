@@ -26,8 +26,8 @@ public class Dungeon {
 	private NoiseGenerator noise;
 	private MazeGenerator maze;
 	private Player player;
-	private Enemy[] enemies;
-	private Rectangle[] enemyCollisionBoxes;
+	private Enemy[] imps, ghosts;
+	private Rectangle[] impCollisionBoxes, ghostCollisionboxes;
 
 	public Dungeon() {
 		noise = new NoiseGenerator(0);
@@ -37,17 +37,29 @@ public class Dungeon {
 		player = new Player(1000, 1000, 100, 1, 1, 200,
 				ResourceLoader.getPlayerSprites("character_sprites_black", 16, 16));
 		;
-		BufferedImage[][] enemyImage = ResourceLoader.getPlayerSprites("imp_sprites", 8,8);
+		BufferedImage[][] impImage = ResourceLoader.getPlayerSprites("imp_sprites", 8, 8);
+		BufferedImage[][] ghostImage = ResourceLoader.getPlayerSprites("ghost_sprites", 16, 16);
 		int spawnWidth = mapPicture.getWidth() - 400;
 		int spawnHeight = mapPicture.getHeight() - 400;
-		int numOfEnemies = 10;
-		enemies = new Enemy[numOfEnemies];
-		enemyCollisionBoxes = new Rectangle[numOfEnemies];
-		for (int i = 0; i < numOfEnemies; i++) {
+		int numOfImps = 10;
+		int numOfGhosts = 10;
+		imps = new Enemy[numOfImps];
+		ghosts = new Enemy[numOfGhosts];
+		impCollisionBoxes = new Rectangle[numOfImps];
+		ghostCollisionboxes = new Rectangle[numOfGhosts];
+		
+		for (int i = 0; i < numOfImps; i++) {
 			int xLoc = Main.random.nextInt(spawnWidth) + 200, yLoc = Main.random.nextInt(spawnHeight) + 200;
-			enemies[i] = new Enemy(xLoc, yLoc, 100, 2, 1, 3.5f + (float) Main.random.nextGaussian() * 2, enemyImage);
-			int width = enemies[i].getSize().x * entityMultiplier, height = enemies[i].getSize().y * entityMultiplier;
-			enemyCollisionBoxes[i] = new Rectangle(xLoc - width / 2, yLoc - height / 2, width, height);
+			imps[i] = new Enemy(xLoc, yLoc, 100, 2, 1, 2.5f + (float) Main.random.nextGaussian() * 2, impImage);
+			int width = imps[i].getSize().x * entityMultiplier, height = imps[i].getSize().y * entityMultiplier;
+			impCollisionBoxes[i] = new Rectangle(xLoc - width / 2, yLoc - height / 2, width, height);
+		}
+		
+		for (int i = 0; i < numOfGhosts; i++) {
+			int xLoc = Main.random.nextInt(spawnWidth) + 200, yLoc = Main.random.nextInt(spawnHeight) + 200;
+			ghosts[i] = new Enemy(xLoc, yLoc, 100, 2, 1, 2f + (float) Main.random.nextGaussian(), ghostImage);
+			int width = ghosts[i].getSize().x * entityMultiplier, height = ghosts[i].getSize().y * entityMultiplier;
+			ghostCollisionboxes[i] = new Rectangle(xLoc - width / 2, yLoc - height / 2, width, height);
 		}
 		initMaze();
 	}
@@ -170,15 +182,17 @@ public class Dungeon {
 		movePlayer(time);
 		player.update(time);
 		int aliveCount = 0;
-		for (Enemy enemy : enemies) {
+		for (Enemy enemy : imps) {
 			enemy.update(time, player.getLocation());
-<<<<<<< HEAD
 			if (enemy.isAlive()) {
 				aliveCount++;
 			}
-=======
-			
->>>>>>> branch 'master' of https://github.com/Oblivion-nara/GameJamZeroDungeon.git
+		}
+		for (Enemy enemy : ghosts) {
+			enemy.update(time, player.getLocation());
+			if (enemy.isAlive()) {
+				aliveCount++;
+			}
 		}
 		isMaze = aliveCount == 0;
 		updateCamera();
@@ -199,7 +213,13 @@ public class Dungeon {
 				Main.height / 2 - (player.getSize().y * entityMultiplier) / 2, player.getSize().x * entityMultiplier,
 				player.getSize().y * entityMultiplier, null);
 
-		for (Enemy enemy : enemies) {
+		for (Enemy enemy : imps) {
+			g2d.drawImage((Image) enemy.draw(),
+					(int) (enemy.xLocation + xDif) - (enemy.getSize().x * entityMultiplier) / 2,
+					(int) (enemy.yLocation + yDif) - (enemy.getSize().y * entityMultiplier) / 2,
+					enemy.getSize().x * entityMultiplier, enemy.getSize().y * entityMultiplier, null);
+		}
+		for (Enemy enemy : ghosts) {
 			g2d.drawImage((Image) enemy.draw(),
 					(int) (enemy.xLocation + xDif) - (enemy.getSize().x * entityMultiplier) / 2,
 					(int) (enemy.yLocation + yDif) - (enemy.getSize().y * entityMultiplier) / 2,

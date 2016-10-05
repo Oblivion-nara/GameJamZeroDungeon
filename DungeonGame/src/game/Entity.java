@@ -65,7 +65,6 @@ public abstract class Entity {
 		return sprite[currentX][currentY];
 
 	}
-<<<<<<< HEAD
 	
 	public boolean isAlive(){
 		return health > 0;
@@ -106,8 +105,5 @@ public abstract class Entity {
 		}
 		return false;
 	}
-	
-=======
->>>>>>> branch 'master' of https://github.com/Oblivion-nara/GameJamZeroDungeon.git
 
 }
