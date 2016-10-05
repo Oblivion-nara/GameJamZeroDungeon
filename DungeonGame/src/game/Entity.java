@@ -5,14 +5,16 @@ import java.awt.image.BufferedImage;
 
 public abstract class Entity {
 
+	protected boolean shouldAttack;
 	protected int health, maxHealth, attack, defence, currentX, currentY;
 	protected float xLocation, yLocation, speed;
 	protected long animationTimer, changeTimer, attackCooldown;
 	protected String name;
-	protected Point size;
+	protected Point size, attackVector;
 	protected BufferedImage[][] sprite;
 
-	public Entity(int xLocation, int yLocation, int maxHealth, int attack, int defence, float speed, BufferedImage[][] sprite) {
+	public Entity(int xLocation, int yLocation, int maxHealth, int attack, int defence, float speed,
+			BufferedImage[][] sprite) {
 		this.xLocation = xLocation;
 		this.yLocation = yLocation;
 		this.maxHealth = this.health = maxHealth;
@@ -21,24 +23,27 @@ public abstract class Entity {
 		this.speed = speed;
 		this.sprite = sprite;
 		currentX = currentY = 0;
-		this.size = new Point(sprite[0][0].getWidth(),sprite[0][0].getHeight());
+		shouldAttack = false;
+		attackVector = new Point(0, 0);
+		this.size = new Point(sprite[0][0].getWidth(), sprite[0][0].getHeight());
 		changeTimer = 500;
 		attackCooldown = System.currentTimeMillis() + changeTimer;
 		animationTimer = System.currentTimeMillis() + changeTimer;
 	}
-	
-	public float getX(){
+
+	public float getX() {
 		return xLocation;
 	}
-	
-	public float getY(){
+
+	public float getY() {
 		return yLocation;
 	}
-	public Point getSize(){
+
+	public Point getSize() {
 		return size;
 	}
-	
-	public void update(float time){
+
+	public void update(float time) {
 
 		if (System.currentTimeMillis() > animationTimer) {
 			animationTimer += changeTimer;
@@ -48,11 +53,10 @@ public abstract class Entity {
 			}
 		}
 	}
-	
-	public BufferedImage draw(){
+
+	public BufferedImage draw() {
 		return sprite[currentX][currentY];
-		
+
 	}
-	
 
 }

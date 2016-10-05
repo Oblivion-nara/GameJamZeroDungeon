@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -16,6 +17,10 @@ public class Player extends Entity {
 	public float getSpeed() {
 		return speed;
 	}
+	
+	public boolean attacking(){
+		return shouldAttack;
+	}
 
 	public void moving() {
 		moving = true;
@@ -28,45 +33,53 @@ public class Player extends Entity {
 	public void moveUp(float time) {
 		yLocation -= speed * time;
 		currentX = 1;
+		attackVector.setLocation(0, -1);
 	}
 
 	public void moveLeft(float time) {
 		xLocation -= speed * time;
 		currentX = 3;
+		attackVector.setLocation(-1,0);
 	}
 
 	public void moveDown(float time) {
 		yLocation += speed * time;
 		currentX = 0;
+		attackVector.setLocation(0,1);
 	}
 
 	public void moveRight(float time) {
 		xLocation += speed * time;
 		currentX = 2;
+		attackVector.setLocation(1,0);
 	}
 
 	public void moveUL(float time) {
 		xLocation -= (speed * time) / Math.sqrt(2);
 		yLocation -= (speed * time) / Math.sqrt(2);
 		currentX = 1;
+		attackVector.setLocation(-1, -1);
 	}
 
 	public void moveUR(float time) {
 		xLocation += (speed * time) / Math.sqrt(2);
 		yLocation -= (speed * time) / Math.sqrt(2);
 		currentX = 1;
+		attackVector.setLocation(1, -1);
 	}
 
 	public void moveDL(float time) {
 		xLocation -= (speed * time) / Math.sqrt(2);
 		yLocation += (speed * time) / Math.sqrt(2);
 		currentX = 0;
+		attackVector.setLocation(-1,1);
 	}
 
 	public void moveDR(float time) {
 		xLocation += (speed * time) / Math.sqrt(2);
 		yLocation += (speed * time) / Math.sqrt(2);
 		currentX = 0;
+		attackVector.setLocation(1,1);
 	}
 
 	public void attack() {
@@ -75,6 +88,7 @@ public class Player extends Entity {
 			currentY = 3;
 			animationTimer = System.currentTimeMillis() + changeTimer;
 			attackCooldown = System.currentTimeMillis() + changeTimer*2;
+			shouldAttack = true;
 		}
 
 	}
@@ -84,6 +98,7 @@ public class Player extends Entity {
 			super.update(time);
 		} else if (System.currentTimeMillis() > animationTimer) {
 			currentY = 0;
+			shouldAttack = false;
 		}
 
 	}
