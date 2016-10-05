@@ -32,24 +32,40 @@ public class Player extends Entity {
 
 	public void moveUp(float time) {
 		yLocation -= speed * time;
+		/*rectUp = new Rectangle(rectUp.x, rectUp.y - (int) (speed * time), rectUp.width, rectUp.height);
+		rectLeft = new Rectangle(rectLeft.x, rectLeft.y - (int) (speed * time), rectLeft.width, rectLeft.height);
+		rectDown = new Rectangle(rectDown.x, rectDown.y - (int) (speed * time), rectDown.width, rectDown.height);
+		rectRight = new Rectangle(rectRight.x, rectRight.y - (int) (speed * time), rectRight.width, rectRight.height);*/
 		currentX = 1;
 		attackVector.setLocation(0, -1);
 	}
 
 	public void moveLeft(float time) {
 		xLocation -= speed * time;
+		/*rectUp = new Rectangle(rectUp.x - (int) (speed * time), rectUp.y, rectUp.width, rectUp.height);
+		rectLeft = new Rectangle(rectLeft.x - (int) (speed * time), rectLeft.y, rectLeft.width, rectLeft.height);
+		rectDown = new Rectangle(rectDown.x - (int) (speed * time), rectDown.y, rectDown.width, rectDown.height);
+		rectRight = new Rectangle(rectRight.x - (int) (speed * time), rectRight.y, rectRight.width, rectRight.height);*/
 		currentX = 3;
 		attackVector.setLocation(-1,0);
 	}
 
 	public void moveDown(float time) {
 		yLocation += speed * time;
+		/*rectUp = new Rectangle(rectUp.x, rectUp.y + (int) (speed * time), rectUp.width, rectUp.height);
+		rectLeft = new Rectangle(rectLeft.x, rectLeft.y + (int) (speed * time), rectLeft.width, rectLeft.height);
+		rectDown = new Rectangle(rectDown.x, rectDown.y + (int) (speed * time), rectDown.width, rectDown.height);
+		rectRight = new Rectangle(rectRight.x, rectRight.y + (int) (speed * time), rectRight.width, rectRight.height);*/
 		currentX = 0;
 		attackVector.setLocation(0,1);
 	}
 
 	public void moveRight(float time) {
 		xLocation += speed * time;
+		/*rectUp = new Rectangle(rectUp.x + (int) (speed * time), rectUp.y, rectUp.width, rectUp.height);
+		rectLeft = new Rectangle(rectLeft.x + (int) (speed * time), rectLeft.y, rectLeft.width, rectLeft.height);
+		rectDown = new Rectangle(rectDown.x + (int) (speed * time), rectDown.y, rectDown.width, rectDown.height);
+		rectRight = new Rectangle(rectRight.x + (int) (speed * time), rectRight.y, rectRight.width, rectRight.height);*/
 		currentX = 2;
 		attackVector.setLocation(1,0);
 	}
