@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -12,6 +15,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import utils.InputHandler;
+import utils.ResourceLoader;
 
 public class Main extends JFrame {
 
@@ -23,6 +27,7 @@ public class Main extends JFrame {
 	public static int width, height;
 	public static Random random;
 	public static InputHandler input;
+	private static GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 
 	private void run() {
 
@@ -61,7 +66,22 @@ public class Main extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		device.setFullScreenWindow(this);
 		this.setVisible(true);
+		
+		BufferedImage invisableCursor = new BufferedImage(1, 1, BufferedImage.TRANSLUCENT);
+		boolean fix = false;
+		Cursor cursor = this.getCursor();
+		while(!fix){
+			try{
+				cursor = Toolkit.getDefaultToolkit().createCustomCursor(ResourceLoader.getImage("cursor.png"), new Point(0,0), "c");
+				fix = true;
+				System.out.println("Main.init() done, "+cursor);
+			}catch(Exception e){
+				System.out.println("fail");
+			}
+		}
+		setCursor(cursor);
 
 		offimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		g = this.getGraphics();

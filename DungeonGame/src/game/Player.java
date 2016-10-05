@@ -82,7 +82,7 @@ public class Player extends Entity {
 	public void update(float time) {
 		if (moving) {
 			super.update(time);
-		} else if (System.currentTimeMillis() > attackCooldown) {
+		} else if (System.currentTimeMillis() > animationTimer) {
 			currentY = 0;
 		}
 
