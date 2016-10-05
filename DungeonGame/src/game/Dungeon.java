@@ -33,7 +33,7 @@ public class Dungeon {
 		player = new Player(1000, 1000, 100, 1, 1, 100,
 				ResourceLoader.getPlayerSprites("character_sprites_black", 16, 16));
 		;
-		BufferedImage[][] enemyImage = ResourceLoader.getPlayerSprites("ghost_sprites", 16, 16);
+		BufferedImage[][] enemyImage = ResourceLoader.getPlayerSprites("imp_sprites", 8,8);
 		int spawnWidth = mapPicture.getWidth() - 400;
 		int spawnHeight = mapPicture.getHeight() - 400;
 		enemies = new Enemy[10];
