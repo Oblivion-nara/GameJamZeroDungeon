@@ -76,7 +76,7 @@ public class Main extends JFrame {
 			try{
 				cursor = Toolkit.getDefaultToolkit().createCustomCursor(ResourceLoader.getImage("cursor.png"), new Point(0,0), "c");
 				fix = true;
-				System.out.println("Main.init() done, "+cursor);
+				System.out.println("Main.init() done, "+cursor.getType());
 			}catch(Exception e){
 				System.out.println("fail");
 			}

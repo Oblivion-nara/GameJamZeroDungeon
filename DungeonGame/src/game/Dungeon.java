@@ -172,9 +172,13 @@ public class Dungeon {
 		int aliveCount = 0;
 		for (Enemy enemy : enemies) {
 			enemy.update(time, player.getLocation());
+<<<<<<< HEAD
 			if (enemy.isAlive()) {
 				aliveCount++;
 			}
+=======
+			
+>>>>>>> branch 'master' of https://github.com/Oblivion-nara/GameJamZeroDungeon.git
 		}
 		isMaze = aliveCount == 0;
 		updateCamera();
