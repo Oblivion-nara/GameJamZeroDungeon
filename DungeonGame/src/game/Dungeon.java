@@ -8,10 +8,10 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
-import utils.Block;
-import utils.MazeGenerator;
-import utils.NoiseGenerator;
-import utils.ResourceLoader;
+import blocks.Block;
+import generators.MazeGenerator;
+import generators.NoiseGenerator;
+import handlers.ResourceLoader;
 
 public class Dungeon {
 
