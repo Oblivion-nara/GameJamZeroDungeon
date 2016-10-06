@@ -14,8 +14,8 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
-import utils.InputHandler;
-import utils.ResourceLoader;
+import handlers.InputHandler;
+import handlers.ResourceLoader;
 
 public class Main extends JFrame {
 

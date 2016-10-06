@@ -49,6 +49,10 @@ public abstract class Entity {
 	public Point getSize() {
 		return size;
 	}
+	
+	public void kill(){
+		health = 0;
+	}
 
 	public void update(float time) {
 

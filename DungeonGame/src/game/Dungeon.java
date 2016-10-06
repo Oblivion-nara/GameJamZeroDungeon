@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
 import blocks.Block;
@@ -27,7 +29,7 @@ public class Dungeon {
 	private MazeGenerator maze;
 	private Player player;
 	private Enemy[] imps, ghosts;
-	private Rectangle[] impCollisionBoxes, ghostCollisionboxes;
+	private Rectangle[] impCollisionBoxes, ghostCollisionBoxes;
 
 	public Dungeon() {
 		noise = new NoiseGenerator(0);
@@ -46,20 +48,20 @@ public class Dungeon {
 		imps = new Enemy[numOfImps];
 		ghosts = new Enemy[numOfGhosts];
 		impCollisionBoxes = new Rectangle[numOfImps];
-		ghostCollisionboxes = new Rectangle[numOfGhosts];
+		ghostCollisionBoxes = new Rectangle[numOfGhosts];
 		
 		for (int i = 0; i < numOfImps; i++) {
 			int xLoc = Main.random.nextInt(spawnWidth) + 200, yLoc = Main.random.nextInt(spawnHeight) + 200;
-			imps[i] = new Enemy(xLoc, yLoc, 100, 2, 1, 180 + (float) Main.random.nextGaussian() * 30, impImage);
+			imps[i] = new Enemy(xLoc, yLoc, 100, 2, 1, 180f + (float) Main.random.nextGaussian() * 60, impImage);
 			int width = imps[i].getSize().x * entityMultiplier, height = imps[i].getSize().y * entityMultiplier;
 			impCollisionBoxes[i] = new Rectangle(xLoc - width / 2, yLoc - height / 2, width, height);
 		}
 		
 		for (int i = 0; i < numOfGhosts; i++) {
 			int xLoc = Main.random.nextInt(spawnWidth) + 200, yLoc = Main.random.nextInt(spawnHeight) + 200;
-			ghosts[i] = new Enemy(xLoc, yLoc, 100, 2, 1, 200 + (float) Main.random.nextGaussian() * 20, ghostImage);
+			ghosts[i] = new Enemy(xLoc, yLoc, 100, 2, 1, 200f + (float) Main.random.nextGaussian() * 40, ghostImage);
 			int width = ghosts[i].getSize().x * entityMultiplier, height = ghosts[i].getSize().y * entityMultiplier;
-			ghostCollisionboxes[i] = new Rectangle(xLoc - width / 2, yLoc - height / 2, width, height);
+			ghostCollisionBoxes[i] = new Rectangle(xLoc - width / 2, yLoc - height / 2, width, height);
 		}
 		initMaze();
 	}
@@ -99,7 +101,7 @@ public class Dungeon {
 	}
 
 	private void movePlayer(float time) {
-		if (Main.input.isKeyDown(KeyEvent.VK_W) && !collideUp()) {
+		if (Main.input.isKeyDown(KeyEvent.VK_W)) {
 			player.moving();
 			if (Main.input.isKeyDown(KeyEvent.VK_A)) {
 				player.moveUL(time);
@@ -108,7 +110,7 @@ public class Dungeon {
 			} else {
 				player.moveUp(time);
 			}
-		} else if (Main.input.isKeyDown(KeyEvent.VK_S) && !collideDown()) {
+		} else if (Main.input.isKeyDown(KeyEvent.VK_S)) {
 			player.moving();
 			if (Main.input.isKeyDown(KeyEvent.VK_A)) {
 				player.moveDL(time);
@@ -117,61 +119,74 @@ public class Dungeon {
 			} else {
 				player.moveDown(time);
 			}
-		} else if (Main.input.isKeyDown(KeyEvent.VK_A) && !collideLeft()) {
+		} else if (Main.input.isKeyDown(KeyEvent.VK_A)) {
 			player.moving();
 			player.moveLeft(time);
-		} else if (Main.input.isKeyDown(KeyEvent.VK_D) && !collideRight()) {
+		} else if (Main.input.isKeyDown(KeyEvent.VK_D)) {
 			player.moving();
 			player.moveRight(time);
 		}
 		if (Main.input.isKeyDown(KeyEvent.VK_SPACE)) {
 			player.attack();
-		}
-	}
+			Point att = player.attackVector;
+			Line2D attackLine = new Line2D.Double(player.xLocation,player.yLocation,att.x,att.y);
 
-	private boolean collideUp() {
-		for (int i = 0; i < collisionBoxes.length; i++) {
-			for (int j = 0; j < collisionBoxes[0].length; j++) {
-				if (!dungeon[i][j] && player.collideUp(collisionBoxes[i][j], entityMultiplier)) {
-					return true;
+			for (int i = 0; i < imps.length; i++) {
+				if(attackLine.intersects(impCollisionBoxes[i])){
+					imps[i].kill();
+				}
+			}
+			for (int i = 0; i < ghosts.length; i++) {
+				if(attackLine.intersects(ghostCollisionBoxes[i])){
+					ghosts[i].kill();
 				}
 			}
 		}
-		return false;
 	}
 
-	private boolean collideLeft() {
-		for (int i = 0; i < collisionBoxes.length; i++) {
-			for (int j = 0; j < collisionBoxes[0].length; j++) {
-				if (!dungeon[i][j] && player.collideLeft(collisionBoxes[i][j], entityMultiplier)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	private boolean collideDown() {
-		for (int i = 0; i < collisionBoxes.length; i++) {
-			for (int j = 0; j < collisionBoxes[0].length; j++) {
-				if (!dungeon[i][j] && player.collideDown(collisionBoxes[i][j], entityMultiplier)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	private boolean collideRight() {
-		for (int i = 0; i < collisionBoxes.length; i++) {
-			for (int j = 0; j < collisionBoxes[0].length; j++) {
-				if (!dungeon[i][j] && player.collideRight(collisionBoxes[i][j], entityMultiplier)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+//	private boolean collideUp() {
+//		for (int i = 0; i < collisionBoxes.length; i++) {
+//			for (int j = 0; j < collisionBoxes[0].length; j++) {
+//				if (!dungeon[i][j] && player.collideUp(collisionBoxes[i][j], entityMultiplier)) {
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
+//	}
+//
+//	private boolean collideLeft() {
+//		for (int i = 0; i < collisionBoxes.length; i++) {
+//			for (int j = 0; j < collisionBoxes[0].length; j++) {
+//				if (!dungeon[i][j] && player.collideLeft(collisionBoxes[i][j], entityMultiplier)) {
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
+//	}
+//
+//	private boolean collideDown() {
+//		for (int i = 0; i < collisionBoxes.length; i++) {
+//			for (int j = 0; j < collisionBoxes[0].length; j++) {
+//				if (!dungeon[i][j] && player.collideDown(collisionBoxes[i][j], entityMultiplier)) {
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
+//	}
+//
+//	private boolean collideRight() {
+//		for (int i = 0; i < collisionBoxes.length; i++) {
+//			for (int j = 0; j < collisionBoxes[0].length; j++) {
+//				if (!dungeon[i][j] && player.collideRight(collisionBoxes[i][j], entityMultiplier)) {
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
+//	}
 
 	private void updateCamera() {
 		xDif = -(player.xLocation - Main.width / 2);
@@ -179,23 +194,24 @@ public class Dungeon {
 	}
 
 	public void update(float time) {
-		movePlayer(time);
 		player.update(time);
 		int aliveCount = 0;
-		for (Enemy enemy : imps) {
-			enemy.update(time, player.getLocation());
-			if (enemy.isAlive()) {
+		for (int i = 0; i < imps.length; i++) {
+			imps[i].update(time, player.getLocation());
+			if (imps[i].isAlive()) {
 				aliveCount++;
 			}
+			impCollisionBoxes[i].setLocation((int)(imps[i].xLocation-imps[i].size.x/2), (int)(imps[i].yLocation-imps[i].size.y/2));
 		}
-		for (Enemy enemy : ghosts) {
-			enemy.update(time, player.getLocation());
-			enemy.playSound();
-			if (enemy.isAlive()) {
+		for (int i = 0; i < ghosts.length; i++) {
+			ghosts[i].update(time, player.getLocation());
+			if (ghosts[i].isAlive()) {
 				aliveCount++;
 			}
+			ghostCollisionBoxes[i].setLocation((int)(ghosts[i].xLocation-ghosts[i].size.x/2), (int)(ghosts[i].yLocation-ghosts[i].size.y/2));
 		}
-		isMaze = aliveCount == 0;
+		movePlayer(time);
+		isMaze = true;
 		updateCamera();
 	}
 
