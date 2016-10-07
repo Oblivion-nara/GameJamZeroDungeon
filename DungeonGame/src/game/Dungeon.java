@@ -10,10 +10,10 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
+import blocks.Block;
 import generators.MazeGenerator;
 import generators.NoiseGenerator;
 import handlers.ResourceLoader;
-import utils.Block;
 
 public class Dungeon {
 
