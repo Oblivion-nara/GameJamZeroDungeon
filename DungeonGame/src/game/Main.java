@@ -15,7 +15,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import handlers.InputHandler;
-import handlers.ResourceLoader;
+import handlers.ResourceHandler;
 
 public class Main extends JFrame {
 
@@ -74,7 +74,7 @@ public class Main extends JFrame {
 		Cursor cursor = this.getCursor();
 		while(!fix){
 			try{
-				cursor = Toolkit.getDefaultToolkit().createCustomCursor(ResourceLoader.getImage("cursor.png"), new Point(0,0), "c");
+				cursor = Toolkit.getDefaultToolkit().createCustomCursor(ResourceHandler.getImage("cursor.png"), new Point(0,0), "c");
 				fix = true;
 				System.out.println("Main.init() done, "+cursor.getType());
 			}catch(Exception e){

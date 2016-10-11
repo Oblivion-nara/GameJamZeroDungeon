@@ -11,9 +11,9 @@ import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
 import blocks.Block;
+import generators.CellularAutomata;
 import generators.MazeGenerator;
-import generators.NoiseGenerator;
-import handlers.ResourceLoader;
+import handlers.ResourceHandler;
 
 public class Dungeon {
 
@@ -23,24 +23,22 @@ public class Dungeon {
 	private boolean isMaze = false;
 	private Rectangle[][] collisionBoxes;
 	private BufferedImage mapPicture, mazePicture;
-	private Block wall = new Block("stone/rock.png", 0, true, 16, 16);
-	private Block floor = new Block("stone/stone.png", 0, false, 16, 16);
-	private NoiseGenerator noise;
+	private CellularAutomata noise;
 	private MazeGenerator maze;
 	private Player player;
 	private Enemy[] imps, ghosts;
 	private Rectangle[] impCollisionBoxes, ghostCollisionBoxes;
 
 	public Dungeon() {
-		noise = new NoiseGenerator(0);
+		noise = new CellularAutomata();
 		entityMultiplier = 4;
 		blockMultiplier = 4;
 		initDungeon();
 		player = new Player(1000, 1000, 100, 1, 1, 200,
-				ResourceLoader.getPlayerSprites("character_sprites_black", 16, 16));
-		;
-		BufferedImage[][] impImage = ResourceLoader.getPlayerSprites("imp_sprites", 8, 8);
-		BufferedImage[][] ghostImage = ResourceLoader.getPlayerSprites("ghost_sprites", 16, 16);
+				ResourceHandler.getPlayerSprites("character_sprites_black", 16, 16));
+		
+		BufferedImage[][] impImage = ResourceHandler.getPlayerSprites("imp_sprites", 8, 8);
+		BufferedImage[][] ghostImage = ResourceHandler.getPlayerSprites("ghost_sprites", 16, 16);
 		int spawnWidth = mapPicture.getWidth() - 400;
 		int spawnHeight = mapPicture.getHeight() - 400;
 		int numOfImps = 10;
@@ -79,12 +77,12 @@ public class Dungeon {
 		for (int i = 0; i < dungeon.length; i++) {
 			for (int j = 0; j < dungeon[0].length; j++) {
 				if (dungeon[i][j]) {
-					floor.draw(g, i * tileSize * blockMultiplier, j * tileSize * blockMultiplier, blockMultiplier);
+					Block.stone.draw(g, i * tileSize * blockMultiplier, j * tileSize * blockMultiplier, blockMultiplier);
 				} else {
-					wall.draw(g, i * tileSize * blockMultiplier, j * tileSize * blockMultiplier, blockMultiplier);
+					Block.rock.draw(g, i * tileSize * blockMultiplier, j * tileSize * blockMultiplier, blockMultiplier);
 				}
 				collisionBoxes[i][j] = new Rectangle(i * tileSize * blockMultiplier, j * tileSize * blockMultiplier,
-						wall.getWidth() * blockMultiplier, wall.getHeight() * blockMultiplier);
+						Block.rock.getWidth() * blockMultiplier, Block.rock.getHeight() * blockMultiplier);
 			}
 		}
 	}

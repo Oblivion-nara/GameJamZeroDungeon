@@ -3,8 +3,7 @@ package game;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import handlers.Sound;
-import utils.MathHelper;
+import handlers.MathHandler;
 
 public class Enemy extends Entity {
 
@@ -15,7 +14,7 @@ public class Enemy extends Entity {
 
 	public void update(float time, Point2D.Double playerLocation) {
 		super.update(time);
-		Point2D.Double move = MathHelper.getPoint2D(new Point2D.Double(xLocation, yLocation), playerLocation,
+		Point2D.Double move = MathHandler.getPoint2D(new Point2D.Double(xLocation, yLocation), playerLocation,
 				speed * time, 0);
 		xLocation += move.x;
 		yLocation += move.y;
@@ -44,9 +43,9 @@ public class Enemy extends Entity {
 	public void playSound() {
 		int chance = Main.random.nextInt(10000);
 		if (chance < 3) {
-			Sound.ghost.play();
+//			Sound.ghost.play();
 		} else if (chance < 6) {
-			Sound.ghostLaughter.play();
+//			Sound.ghostLaughter.play();
 		}
 	}
 
