@@ -19,7 +19,7 @@ import handlers.ResourceHandler;
 
 public class Main extends JFrame {
 
-	private boolean running;
+	private boolean isRunning;
 	private Dungeon dungeon;
 	private BufferedImage offimage;
 	private Graphics g;
@@ -35,10 +35,10 @@ public class Main extends JFrame {
 
 		long beforeTime, afterTime, deltaTime = 0;
 
-		while (running) {
+		while (isRunning) {
 			beforeTime = System.nanoTime();
 			update(deltaTime);
-			if (running) {
+			if (isRunning) {
 				draw();
 			}
 			afterTime = System.nanoTime();
@@ -49,7 +49,7 @@ public class Main extends JFrame {
 	}
 
 	private void init() {
-		running = true;
+		isRunning = true;
 		random = new Random();
 		
 		dungeon = new Dungeon();
@@ -90,7 +90,7 @@ public class Main extends JFrame {
 
 	private void update(long nanoTime) {
 		if (input.isKeyDown(KeyEvent.VK_ESCAPE)) {
-			running = false;
+			isRunning = false;
 		} else {
 			Float timeS = (float) nanoTime / 1000000000;
 			dungeon.update(timeS);
