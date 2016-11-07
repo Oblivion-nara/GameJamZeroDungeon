@@ -16,6 +16,7 @@ import generators.MazeGenerator;
 import handlers.ResourceHandler;
 
 public class Dungeon {
+	
 
 	private int entityMultiplier, blockMultiplier;
 	private float xDif, yDif;
