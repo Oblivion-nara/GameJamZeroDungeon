@@ -16,7 +16,6 @@ import generators.MazeGenerator;
 import handlers.ResourceHandler;
 
 public class Dungeon {
-	
 
 	private int entityMultiplier, blockMultiplier;
 	private float xDif, yDif;
@@ -31,6 +30,7 @@ public class Dungeon {
 	private Rectangle[] impCollisionBoxes, ghostCollisionBoxes;
 
 	public Dungeon() {
+		// much work wow!!
 		noise = new CellularAutomata();
 		entityMultiplier = 4;
 		blockMultiplier = 4;
