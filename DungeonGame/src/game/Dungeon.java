@@ -21,6 +21,7 @@ public class Dungeon {
 	private float xDif, yDif;
 	private boolean[][] dungeon;
 	private boolean isMaze = false;
+	
 	private Rectangle[][] collisionBoxes;
 	private BufferedImage mapPicture, mazePicture;
 	private CellularAutomata noise;
