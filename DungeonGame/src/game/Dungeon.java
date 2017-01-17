@@ -25,7 +25,7 @@ public class Dungeon {
 	
 	private Rectangle[][] collisionBoxes;
 	private BufferedImage mapPicture, mazePicture;
-	private CellularAutomata noise;
+	private CellularAutomata noise;rkjnfierfn
 	private MazeGenerator maze;
 	private Player player;
 	private Enemy[] imps, ghosts;
